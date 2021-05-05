@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 public class LackOfCohesion extends AbstractSmell {
 
+    private final float COHESION_THRESHOLD = 0.4f;
     private List<SmellyElement> smellyElementList;
     private String testFileName;
     private List<MethodDeclaration> testMethods;
@@ -30,6 +31,7 @@ public class LackOfCohesion extends AbstractSmell {
     private List<String> strTestFields;
     private int fieldsInMethods = 0;
     private List<String> currentFields;
+    private List<String> usedFields;
     private boolean smelly = false;
 
     public LackOfCohesion() {
@@ -39,6 +41,7 @@ public class LackOfCohesion extends AbstractSmell {
         setupFields = new ArrayList<>();
         currentFields = new ArrayList<>();
         strTestFields = new ArrayList<>();
+        usedFields = new ArrayList<>();
     }
 
     @Override
@@ -55,8 +58,6 @@ public class LackOfCohesion extends AbstractSmell {
         classVisitor.visit(testFileCompilationUnit, null);
 
         if(setupMethod != null) {
-            //Get all fields that are initialized in the setup method
-            //May not be needed, depending on smell variant chosen
             initialiseSetupFields();
         }
 
@@ -65,6 +66,8 @@ public class LackOfCohesion extends AbstractSmell {
         for (MethodDeclaration method : testMethods) {
             classVisitor.visit(method, null);
         }
+
+        usedFields = usedFields.stream().distinct().collect(Collectors.toList());
 
         calculateCohesion();
 
@@ -94,9 +97,9 @@ public class LackOfCohesion extends AbstractSmell {
 
     private void calculateCohesion(){
         float cohesion;
-        if(testMethods.size() == 1) cohesion = (1.f / (float) strTestFields.size()) * (float) fieldsInMethods - (float) testMethods.size();
-        else cohesion = ((1.f / (float) strTestFields.size()) * (float) fieldsInMethods - (float) testMethods.size()) / (1.f - (float) testMethods.size());
-        if(cohesion > 0.4f) smelly = true;
+        if(testMethods.size() == 1) cohesion = (1.f / (float) usedFields.size()) * (float) fieldsInMethods - (float) testMethods.size();
+        else cohesion = ((1.f / (float) usedFields.size()) * (float) fieldsInMethods - (float) testMethods.size()) / (1.f - (float) testMethods.size());
+        if(cohesion > COHESION_THRESHOLD) smelly = true;
     }
 
     @Override
@@ -154,10 +157,14 @@ public class LackOfCohesion extends AbstractSmell {
         public void getAllChildNodes(Node n){
             List<Node> children = n.getChildNodes();
             children.stream().forEach(x -> {
-                if(x instanceof NameExpr)  currentFields.add(((NameExpr) x).getName().toString());
+                if(x instanceof NameExpr) {
+                    usedFields.add(((NameExpr) x).getNameAsString());
+                    currentFields.add(((NameExpr) x).getNameAsString());
+                }
                 else getAllChildNodes(x);
             });
         }
+
 
     }
 
