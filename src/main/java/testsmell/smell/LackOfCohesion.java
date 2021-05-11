@@ -22,20 +22,17 @@ import java.util.stream.Collectors;
 public class LackOfCohesion extends AbstractSmell {
 
     private final float COHESION_THRESHOLD = 0.4f;
-    private List<SmellyElement> smellyElementList;
-    private String testFileName;
     private List<MethodDeclaration> testMethods;
-    private MethodDeclaration setupMethod;
     private List<FieldDeclaration> testFields;
-    private List<String> setupFields;
     private List<String> strTestFields;
-    private int fieldsInMethods = 0;
+    private List<String> setupFields;
     private List<String> currentFields;
     private List<String> usedFields;
+    private MethodDeclaration setupMethod;
     private boolean smelly = false;
+    private int fieldsInMethods = 0;
 
     public LackOfCohesion() {
-        smellyElementList = new ArrayList<>();
         testMethods = new ArrayList<>();
         testFields = new ArrayList<>();
         setupFields = new ArrayList<>();
@@ -52,7 +49,6 @@ public class LackOfCohesion extends AbstractSmell {
 
     @Override
     public void runAnalysis(CompilationUnit testFileCompilationUnit, CompilationUnit productionFileCompilationUnit, String testFileName, String productionFileName) throws FileNotFoundException {
-        this.testFileName = testFileName;
         LackOfCohesion.ClassVisitor classVisitor;
         classVisitor = new LackOfCohesion.ClassVisitor();
         classVisitor.visit(testFileCompilationUnit, null);
