@@ -30,6 +30,7 @@ public class TestSmellDetector {
         testSmells.add(new AssertionRoulette());
         testSmells.add(new ConditionalTestLogic());
         testSmells.add(new ConstructorInitialization());
+        testSmells.add(new DeadFields());
         testSmells.add(new DefaultTest());
         testSmells.add(new EmptyTest());
         testSmells.add(new ExceptionCatchingThrowing());

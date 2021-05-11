@@ -66,8 +66,6 @@ public class LackOfCohesion extends AbstractSmell {
         usedFields = usedFields.stream().distinct().collect(Collectors.toList());
 
         calculateCohesion();
-
-
     }
 
     private void initialiseSetupFields() {
@@ -106,10 +104,7 @@ public class LackOfCohesion extends AbstractSmell {
     private class ClassVisitor extends VoidVisitorAdapter<Void> {
 
         private MethodDeclaration methodDeclaration = null;
-        private MethodDeclaration currentMethod = null;
         TestMethod testMethod;
-        private Set<String> fixtureCount = new HashSet<>();
-
 
         @Override
         public void visit(ClassOrInterfaceDeclaration declaration, Void arg) {
@@ -136,7 +131,6 @@ public class LackOfCohesion extends AbstractSmell {
         @Override
         public void visit(MethodDeclaration n, Void arg) {
             if (Util.isValidTestMethod(n)) {
-                currentMethod = n;
                 super.visit(n, arg);
 
                 testMethod = new TestMethod(n.getNameAsString());
