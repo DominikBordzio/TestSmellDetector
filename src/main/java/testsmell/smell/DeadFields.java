@@ -23,12 +23,14 @@ public class DeadFields extends AbstractSmell{
 
     private List<MethodDeclaration> testMethods;
     private List<FieldDeclaration> testFields;
+    private List<String> testFieldsStr;
     private List<String> usedFields;
     private boolean smelly = false;
 
     public DeadFields() {
         testMethods = new ArrayList<>();
         testFields = new ArrayList();
+        testFieldsStr = new ArrayList<>();
         usedFields = new ArrayList<>();
     }
 
@@ -43,7 +45,10 @@ public class DeadFields extends AbstractSmell{
         }
 
         usedFields = usedFields.stream().distinct().collect(Collectors.toList());
-        smelly = usedFields.size() < testFields.size();
+        testFieldsStr = testFieldsStr.stream().distinct().collect(Collectors.toList());
+        testFieldsStr.removeAll(usedFields);
+        smelly = testFieldsStr.size() > 0;
+        System.out.println(smelly);
     }
 
     @Override
@@ -77,6 +82,7 @@ public class DeadFields extends AbstractSmell{
                     }
                 }
                 if(members.get(i) instanceof FieldDeclaration) {
+                    testFieldsStr.add(((FieldDeclaration) members.get(i)).getVariable(0).getNameAsString());
                     testFields.add((FieldDeclaration) members.get(i));
                 }
             }
