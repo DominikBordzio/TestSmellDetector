@@ -155,7 +155,6 @@ public class GeneralFixture extends AbstractSmell {
                     if(!fixtureCount.contains(n.getNameAsString())){
                         fixtureCount.add(n.getNameAsString());
                     }
-                    //System.out.println(currentMethod.getNameAsString() + " : " + n.getName().toString());
                 }
             }
 

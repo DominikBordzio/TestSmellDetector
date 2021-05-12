@@ -34,7 +34,6 @@ public class DeadFields extends AbstractSmell{
 
     @Override
     public void runAnalysis(CompilationUnit testFileCompilationUnit, CompilationUnit productionFileCompilationUnit, String testFileName, String productionFileName) throws FileNotFoundException {
-        System.out.println("running");
         DeadFields.ClassVisitor classVisitor;
         classVisitor = new DeadFields.ClassVisitor();
         classVisitor.visit(testFileCompilationUnit, null);
@@ -45,7 +44,6 @@ public class DeadFields extends AbstractSmell{
 
         usedFields = usedFields.stream().distinct().collect(Collectors.toList());
         smelly = usedFields.size() < testFields.size();
-        System.out.println(smelly);
     }
 
     @Override
