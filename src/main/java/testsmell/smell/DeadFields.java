@@ -48,7 +48,6 @@ public class DeadFields extends AbstractSmell{
         testFieldsStr = testFieldsStr.stream().distinct().collect(Collectors.toList());
         testFieldsStr.removeAll(usedFields);
         smelly = testFieldsStr.size() > 0;
-        System.out.println(smelly);
     }
 
     @Override

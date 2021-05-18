@@ -37,7 +37,8 @@ public class Main {
         BufferedReader in = new BufferedReader(new FileReader(args[0]));
         String str;
 
-        String[] lineItem;
+        String projectName = "Unknown";
+        String[] lineItem = new String[0];
         TestFile testFile;
         List<TestFile> testFiles = new ArrayList<>();
         while ((str = in.readLine()) != null) {
@@ -51,14 +52,14 @@ public class Main {
             else{
                 testFile = new TestFile(lineItem[0], lineItem[1], lineItem[2]);
             }
-
-            testFiles.add(testFile);
         }
+
+        if(lineItem.length > 0) projectName = lineItem[0];
 
         /*
           Initialize the output file - Create the output file and add the column names
          */
-        ResultsWriter resultsWriter = ResultsWriter.createResultsWriter();
+        ResultsWriter resultsWriter = ResultsWriter.createResultsWriter(projectName);
         List<String> columnNames;
         List<String> columnValues;
 

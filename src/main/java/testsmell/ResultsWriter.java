@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class ResultsWriter {
 
+    private String projectName;
     private String outputFile;
     private FileWriter writer;
 
@@ -18,9 +19,9 @@ public class ResultsWriter {
      * Creates the file into which output it to be written into. Results from each file will be stored in a new file
      * @throws IOException
      */
-    private ResultsWriter() throws IOException {
+    private ResultsWriter(String projectName) throws IOException {
         String time =  String.valueOf(Calendar.getInstance().getTimeInMillis());
-        outputFile = MessageFormat.format("{0}_{1}_{2}.{3}", "Output","TestSmellDetection",time, "csv");
+        outputFile = MessageFormat.format("{0}_{1}.{2}", "TsDetect",projectName, "csv");
         writer = new FileWriter(outputFile,false);
     }
 
@@ -29,8 +30,8 @@ public class ResultsWriter {
      * @return new ResultsWriter instance
      * @throws IOException
      */
-    public static ResultsWriter createResultsWriter() throws IOException {
-        return new ResultsWriter();
+    public static ResultsWriter createResultsWriter(String projectName) throws IOException {
+        return new ResultsWriter(projectName);
     }
 
     /**

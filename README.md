@@ -20,6 +20,8 @@ The purpose of this project is twofold:
 
 Visit the project website: https://testsmells.github.io/
 
+# PBR Development notes
+
 ## JavaParser guide
 https://leanpub.com/javaparservisited
 
@@ -28,4 +30,16 @@ DeadFields implements a ClassVisitor, which allows the following steps:
 1. visit(ClassOrInterfaceDeclaration declaration) - a class is parsed, all declared methods and class fields (testFields array) are extracted
 2. visit(MethodDeclaration n) - for every declared method, some action is performed. In this example, every method is recursively
 searched to find all Nodes of NameExpr type (which in this case are the the fields used inside of that method).
+
+## Generating output
+To generate output files from TsDetect the user has to provide an input csv file with the following data:
+1. Project name
+2. Path to java test file
+3. Path to java produciton file
+e.g. PBR;C:\apps\pbr\src\test\RibTest.java;C:\apps\pbr\src\Rib.java
+
+To execute detection in TsDetect jar directory:
+java -jar .\TestSmellDetector.jar pathToInputFile.csv
+
+
 
