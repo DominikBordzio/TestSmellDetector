@@ -52,6 +52,7 @@ public class Main {
             else{
                 testFile = new TestFile(lineItem[0], lineItem[1], lineItem[2]);
             }
+            testFiles.add(testFile);
         }
 
         if(lineItem.length > 0) projectName = lineItem[0];
